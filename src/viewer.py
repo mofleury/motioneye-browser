@@ -30,7 +30,9 @@ template = Template(templateFile.read())
 parameters = {}
 parameters.update(configSectionMap(config, 'web'))
 
-imageFiles = [f for f in listdir(root) if (f.endswith(".gif") or f.endswith(".jpg")) and isfile(join(root, f))]
+imageFiles = [f for f in listdir(root) if
+              (f.endswith(".gif") or f.endswith(".jpg") or f.endswith(".mp4")) and isfile(join(root, f))]
+imageFiles.sort()
 
 parameters['images'] = imageFiles
 

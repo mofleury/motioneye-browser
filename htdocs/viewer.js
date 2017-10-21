@@ -168,8 +168,11 @@ var ImageWrapper = (function (_super) {
             image.title && image.content ? React.createElement("span", null, " - ") : null,
             image.title ? React.createElement("span", { className: "content" }, image.content) : null));
         return (React.createElement("div", { className: "image-wrapper" },
-            React.createElement("div", { style: { transform: value }, ref: function (component) { return _this.imageOuter = component; }, className: imageCls }, loading ? (React.createElement("div", { className: "spinner" },
-                React.createElement("div", { className: "bounce" }))) : React.createElement("img", { className: "image", ref: function (component) { return _this.image = component; }, src: image.src, alt: image.title || '', draggable: false, onDragStart: function (e) { return e.preventDefault(); }, onMouseMove: this.onMove.bind(this), onMouseDown: this.onMoveStart.bind(this), onMouseUp: this.onMoveEnd.bind(this) })),
+            React.createElement("div", { style: { transform: value }, ref: function (component) {return _this.imageOuter = component; },  className: imageCls },
+                     loading ? (React.createElement("div", { className: "spinner" }, React.createElement("div", { className: "bounce" }))) :
+                           image.isVideo ? React.createElement("video", { className: "image", ref: function (component) { return _this.image = component; }, src: image.src, controls:true, alt: image.title || '', draggable: false, onDragStart: function (e) { return e.preventDefault(); }, onMouseMove: this.onMove.bind(this), onMouseDown: this.onMoveStart.bind(this), onMouseUp: this.onMoveEnd.bind(this) })
+                                              : React.createElement("img", { className: "image", ref: function (component) { return _this.image = component; }, src: image.src, alt: image.title || '', draggable: false, onDragStart: function (e) { return e.preventDefault(); }, onMouseMove: this.onMove.bind(this), onMouseDown: this.onMoveStart.bind(this), onMouseUp: this.onMoveEnd.bind(this) })
+                           ),
             React.createElement("div", { className: "tool-bar" },
                 showIndex && React.createElement("div", { className: "index-indicator" }, index),
                 caption,
@@ -197,7 +200,7 @@ var ImageViewer = (function (_super) {
             var isActive = activeIndex === index;
             var itemInvisible = length > VISIBLE_INDICATORS_COUNT && (index < Math.min(length - VISIBLE_INDICATORS_COUNT - 1, activeIndex - ret) || index > Math.max(activeIndex + ret, VISIBLE_INDICATORS_COUNT));
             var itemCls = "indicators-item " + (isActive ? 'active' : '') + " " + (itemInvisible ? 'invisible' : '') + " " + (_this.props.showPreview ? 'preview' : '');
-            return (React.createElement("div", { key: index, className: itemCls, onClick: _this.itemControl.bind(_this, index) }, _this.props.showPreview && (React.createElement("div", { className: "image", style: { background: "url(" + item.src + ")" } }))));
+            return (React.createElement("div", { key: index, className: itemCls, onClick: _this.itemControl.bind(_this, index) }, _this.props.showPreview && (React.createElement("div", { className: "image", style: { background: "url(" + item.thumbnail + ")" } }))));
         });
     };
     ImageViewer.prototype.onPrev = function () {
@@ -308,7 +311,7 @@ var Root = (function (_super) {
         var images = this.props.images;
         return (React.createElement("div", { className: "image-gallery" },
             images.map(function (item, index) { return (React.createElement("div", { className: "image-item", key: index, onClick: _this.open.bind(_this, index) },
-                React.createElement("div", { className: "image-inner", style: { background: "url(" + item.src + ")" } }))); }),
+                React.createElement("div", { className: item.isVideo ? "image-inner fa fa-play" : "image-inner" , style: { background: "url(" + item.thumbnail + ")" } }))); }),
             React.createElement(Modal, { images: images, showIndex: true, showPreview: true, ref: function (component) { return _this.modal = component; } })));
     };
     Root.prototype.open = function (index) {

@@ -4,11 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="$resources_root/viewer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js'></script>
 
     <script>
   window.console = window.console || function(t) {};
+
 
 
 
@@ -19,6 +21,7 @@
   if (document.location.search.match(/type=embed/gi)) {
     window.parent.postMessage("resize", "*");
   }
+
 
 
 
@@ -35,12 +38,18 @@
 <script>
     var images = $images;
     var data = images.map(function(image) {
+
+        var isVideo = image.endsWith('.mp4');
+
         return {
             src : '$resources_root/data/'+image,
             title: image,
-            content : 'content of ' +image
+            content : 'content of ' +image,
+            isVideo : isVideo,
+            thumbnail : '$resources_root/data/'+ (isVideo ? image  + '.thumb' : image)
         };
     });
+
 </script>
 
 <script src='$resources_root/viewer.js'></script>
