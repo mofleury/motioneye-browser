@@ -10,6 +10,8 @@
     <script>
   window.console = window.console || function(t) {};
 
+
+
     </script>
 
 
@@ -18,6 +20,8 @@
     window.parent.postMessage("resize", "*");
   }
 
+
+
     </script>
 </head>
 
@@ -25,7 +29,19 @@
 
 <div id="root">
 
+
 </div>
+
+<script>
+    var images = $images;
+    var data = images.map(function(image) {
+        return {
+            src : '$resources_root/data/'+image,
+            title: image,
+            content : 'content of ' +image
+        };
+    });
+</script>
 
 <script src='$resources_root/viewer.js'></script>
 </body>

@@ -3,6 +3,9 @@
 import ConfigParser
 from string import Template
 
+from os import listdir
+from os.path import isfile, join
+
 
 def configSectionMap(conf, section):
     dict1 = {}
@@ -27,6 +30,9 @@ template = Template(templateFile.read())
 parameters = {}
 parameters.update(configSectionMap(config, 'web'))
 
-parameters['message'] = 'tim'
+
+imageFiles = [f for f in listdir(root) if f.endswith(".gif") and isfile(join(root, f))]
+
+parameters['images'] = imageFiles
 
 print template.substitute(parameters)
