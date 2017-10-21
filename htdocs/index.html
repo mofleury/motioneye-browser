@@ -14,6 +14,7 @@
 
 
 
+
     </script>
 
 
@@ -21,6 +22,7 @@
   if (document.location.search.match(/type=embed/gi)) {
     window.parent.postMessage("resize", "*");
   }
+
 
 
 
@@ -46,9 +48,10 @@
             title: image,
             content : 'content of ' +image,
             isVideo : isVideo,
-            thumbnail : '$resources_root/data/'+ (isVideo ? image  + '.thumb' : image)
+            thumbnail : '$resources_root/data/'+ image  + '.thumb'
         };
     });
+
 
 </script>
 

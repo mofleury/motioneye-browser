@@ -200,7 +200,7 @@ var ImageViewer = (function (_super) {
             var isActive = activeIndex === index;
             var itemInvisible = length > VISIBLE_INDICATORS_COUNT && (index < Math.min(length - VISIBLE_INDICATORS_COUNT - 1, activeIndex - ret) || index > Math.max(activeIndex + ret, VISIBLE_INDICATORS_COUNT));
             var itemCls = "indicators-item " + (isActive ? 'active' : '') + " " + (itemInvisible ? 'invisible' : '') + " " + (_this.props.showPreview ? 'preview' : '');
-            return (React.createElement("div", { key: index, className: itemCls, onClick: _this.itemControl.bind(_this, index) }, _this.props.showPreview && (React.createElement("div", { className: "image", style: { background: "url(" + item.thumbnail + ")" } }))));
+            return (React.createElement("div", { key: index, className: itemCls, onClick: _this.itemControl.bind(_this, index) }, _this.props.showPreview && (React.createElement("div", { className: item.isVideo ? "image fa fa-play" : "image", style: { background: "url(" + item.thumbnail + ")" } }))));
         });
     };
     ImageViewer.prototype.onPrev = function () {
