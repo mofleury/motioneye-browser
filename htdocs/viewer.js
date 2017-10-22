@@ -1,4 +1,7 @@
    "use strict";
+
+   // based on https://codepen.io/mawa_hujihara/pen/ZezdeJ
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) {if (window.CP.shouldStopExecution(1)){break;}if (b.hasOwnProperty(p)) d[p] = b[p];
 window.CP.exitedLoop(1);
@@ -171,7 +174,7 @@ var ImageWrapper = (function (_super) {
             React.createElement("div", { style: { transform: value }, ref: function (component) {return _this.imageOuter = component; },  className: imageCls },
                      loading ? (React.createElement("div", { className: "spinner" }, React.createElement("div", { className: "bounce" }))) :
                            image.isVideo ? React.createElement("video", { className: "image", ref: function (component) { return _this.image = component; }, src: image.src, controls:true, alt: image.title || '', draggable: false, onDragStart: function (e) { return e.preventDefault(); }, onMouseMove: this.onMove.bind(this), onMouseDown: this.onMoveStart.bind(this), onMouseUp: this.onMoveEnd.bind(this) })
-                                              : React.createElement("img", { className: "image", ref: function (component) { return _this.image = component; }, src: image.src, alt: image.title || '', draggable: false, onDragStart: function (e) { return e.preventDefault(); }, onMouseMove: this.onMove.bind(this), onMouseDown: this.onMoveStart.bind(this), onMouseUp: this.onMoveEnd.bind(this) })
+                                         : React.createElement("img", { className: "image", ref: function (component) { return _this.image = component; }, src: image.src, alt: image.title || '', draggable: false, onDragStart: function (e) { return e.preventDefault(); }, onMouseMove: this.onMove.bind(this), onMouseDown: this.onMoveStart.bind(this), onMouseUp: this.onMoveEnd.bind(this) })
                            ),
             React.createElement("div", { className: "tool-bar" },
                 showIndex && React.createElement("div", { className: "index-indicator" }, index),
@@ -200,7 +203,9 @@ var ImageViewer = (function (_super) {
             var isActive = activeIndex === index;
             var itemInvisible = length > VISIBLE_INDICATORS_COUNT && (index < Math.min(length - VISIBLE_INDICATORS_COUNT - 1, activeIndex - ret) || index > Math.max(activeIndex + ret, VISIBLE_INDICATORS_COUNT));
             var itemCls = "indicators-item " + (isActive ? 'active' : '') + " " + (itemInvisible ? 'invisible' : '') + " " + (_this.props.showPreview ? 'preview' : '');
-            return (React.createElement("div", { key: index, className: itemCls, onClick: _this.itemControl.bind(_this, index) }, _this.props.showPreview && (React.createElement("div", { className: item.isVideo ? "image fa fa-play" : "image", style: { background: "url(" + item.thumbnail + ")" } }))));
+            return (React.createElement("div",  { key: index, className: itemCls, onClick: _this.itemControl.bind(_this, index) },
+             _this.props.showPreview && (React.createElement("div", { className: item.isVideo ? "image fa fa-play" : "image", style: { background: "url(" + item.thumbnail + ")" } }
+             ))));
         });
     };
     ImageViewer.prototype.onPrev = function () {
@@ -311,7 +316,9 @@ var Root = (function (_super) {
         var images = this.props.images;
         return (React.createElement("div", { className: "image-gallery" },
             images.map(function (item, index) { return (React.createElement("div", { className: "image-item", key: index, onClick: _this.open.bind(_this, index) },
-                React.createElement("div", { className: item.isVideo ? "image-inner fa fa-play" : "image-inner" , style: { background: "url(" + item.thumbnail + ")" } }))); }),
+                React.createElement("div", { className: item.isVideo ? "image-inner fa fa-play" : "image-inner" , style: { background: "url(" + item.thumbnail + ")" } }
+                )));
+              }),
             React.createElement(Modal, { images: images, showIndex: true, showPreview: true, ref: function (component) { return _this.modal = component; } })));
     };
     Root.prototype.open = function (index) {
