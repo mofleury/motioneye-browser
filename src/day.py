@@ -16,15 +16,26 @@ def configSectionMap(conf, section):
     return dict1
 
 
+def missingThumbnail(imageFiles):
+    for f in imageFiles:
+        thumbnail = thumbnails_root + "/" + f
+        if not os.path.isfile(thumbnail):
+            return 1
+    return 0
+
+
 print "Content-type: text/html\n\n"
 
 config = ConfigParser.ConfigParser()
-config.read("./viewer.conf")
+
+configPath = os.environ['CONFIG_PATH'] if 'CONFIG_PATH' in os.environ else './viewer.conf'
+
+config.read(configPath)
 
 directory = os.environ['QUERY_STRING']
 
-root = config.get("directory", "root") + "/" + directory
-templatePath = "day.html"
+root = config.get("directory", "motion_root") + "/" + directory
+templatePath = "./day.html"
 
 templateFile = open(templatePath, "r")
 
@@ -37,18 +48,17 @@ imageFiles = [f for f in listdir(root) if
               (f.endswith(".jpg") or f.endswith(".mp4")) and isfile(join(root, f))]
 imageFiles.sort()
 
-# make sure that all thumbnails are present. this can be optimized in a lot of ways, but hell, it works...
-for f in imageFiles:
-    thumbnail = f + ".thumb"
-    if not os.path.isfile(root + "/" + thumbnail):
-        filename, file_extension = os.path.splitext(f)
+thumbnails_root = config.get("directory", "thumbnails_root") + "/" + directory
 
-        thumbnailIntermediary = filename + ".thumb" + file_extension
-        os.system(
-            "cp {0} {1} && mogrify  -format jpg -thumbnail 160x120 {1} && mv {1} {2}"
-                .format(root + "/" + f, root + "/" + thumbnailIntermediary, root + "/" + thumbnail))
+# make sure that all thumbnails are present. this can be optimized in a lot of ways, but hell, it works...
+if missingThumbnail(imageFiles):
+    os.system(
+        "mkdir -p {0} && mogrify  -format jpg -path {0} -thumbnail 100x100 {1}/*.jpg".format(thumbnails_root, root))
+    for videoThumbnail in filter(lambda f : f.endswith(".thumb"), listdir(root)):
+        basename = os.path.splitext(videoThumbnail)[0]
+        os.system("cp {0} {1}".format(join(root, videoThumbnail), join(thumbnails_root, basename)))
 
 parameters['images'] = imageFiles
-parameters['day_root'] = parameters['motion_root'] + "/" + directory
+parameters['day'] = directory
 
 print template.substitute(parameters)

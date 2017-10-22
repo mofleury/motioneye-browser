@@ -15,6 +15,13 @@
 
 
 
+
+
+
+
+
+
+
     </script>
 
 
@@ -22,6 +29,13 @@
   if (document.location.search.match(/type=embed/gi)) {
     window.parent.postMessage("resize", "*");
   }
+
+
+
+
+
+
+
 
 
 
@@ -44,14 +58,13 @@
         var isVideo = image.endsWith('.mp4');
 
         return {
-            src : '$day_root/'+image,
+            src : '$motion_root/$day/'+image,
             title: image,
             content : 'content of ' +image,
             isVideo : isVideo,
-            thumbnail : '$day_root/'+ image  + '.thumb'
+            thumbnail : '$thumbnails_root/$day/' + image
         };
     });
-
 
 </script>
 

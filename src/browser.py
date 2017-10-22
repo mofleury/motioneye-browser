@@ -19,9 +19,11 @@ def configSectionMap(conf, section):
 print "Content-type: text/html\n\n"
 
 config = ConfigParser.ConfigParser()
-config.read("./viewer.conf")
+configPath = os.environ['CONFIG_PATH'] if 'CONFIG_PATH' in os.environ else './viewer.conf'
 
-root = config.get("directory", "root")
+config.read(configPath)
+
+root = config.get("directory", "motion_root")
 
 print """
 
