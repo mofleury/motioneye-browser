@@ -24,7 +24,7 @@ config.read("./viewer.conf")
 directory = os.environ['QUERY_STRING']
 
 root = config.get("directory", "root") + "/" + directory
-templatePath = config.get("directory", "dayTemplatePath")
+templatePath = "day.html"
 
 templateFile = open(templatePath, "r")
 

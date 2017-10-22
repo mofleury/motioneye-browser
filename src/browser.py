@@ -36,7 +36,7 @@ print """
 <ul>
 """
 
-days = listdir(root)
+days = filter(lambda d: os.path.isdir(os.path.join(root, d)), listdir(root))
 days.sort()
 for f in days:
     dayPath = join(root, f)
