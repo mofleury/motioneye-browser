@@ -21,8 +21,10 @@ print "Content-type: text/html\n\n"
 config = ConfigParser.ConfigParser()
 config.read("./viewer.conf")
 
-root = config.get("directory", "root")
-templatePath = config.get("directory", "templatePath")
+directory = os.environ['QUERY_STRING']
+
+root = config.get("directory", "root") + "/" + directory
+templatePath = config.get("directory", "dayTemplatePath")
 
 templateFile = open(templatePath, "r")
 
@@ -47,5 +49,6 @@ for f in imageFiles:
                 .format(root + "/" + f, root + "/" + thumbnailIntermediary, root + "/" + thumbnail))
 
 parameters['images'] = imageFiles
+parameters['day_root'] = parameters['motion_root'] + "/" + directory
 
 print template.substitute(parameters)
